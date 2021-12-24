@@ -15,10 +15,19 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const supertest_1 = __importDefault(require("supertest"));
 const main_1 = __importDefault(require("../main"));
 const request = (0, supertest_1.default)(main_1.default);
-describe('Test endpoint responses', () => {
+describe('Incorrect endpoint returns 404', () => {
     it('gets the api endpoint', (done) => __awaiter(void 0, void 0, void 0, function* () {
-        const response = yield request.get('/test');
-        expect(response.status).toBe(200);
+        const response = yield request.get('/api/images/test');
+        expect(response.status).toBe(404);
+        done();
+    }));
+});
+describe('Test', () => {
+    it('gets the api endpoint', (done) => __awaiter(void 0, void 0, void 0, function* () {
+        const response = yield request.get('/api/images/beach/100');
+        console.dir('++++++');
+        console.dir(response);
+        expect(response.body).toBe('');
         done();
     }));
 });

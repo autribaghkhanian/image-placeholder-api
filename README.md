@@ -10,5 +10,4 @@ Simple API built with node and express to serve placeholder images using the Jim
 You should now see the image on the browser, as well as have a thumbnail generated in the `src/assets/thumbs`
 
 ## How to test
-
-## How to lint
+1. From root folder, run `npm test`
