@@ -23,10 +23,10 @@ routes.get('/images/:name/:width/:height?', (req, res) => {
       return;
     })
     .catch((err) => {
-        if (err.errno == -2) {
-            res.send('File not found');
-            return;
-        }
+      if (err.errno == -2) {
+        res.send('File not found');
+        return;
+      }
     });
 });
 
