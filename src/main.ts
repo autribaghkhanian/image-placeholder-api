@@ -6,6 +6,11 @@ const port = 3000;
 
 app.use('/api', routes);
 
+app.get('*', function(req, res){
+    res.send('Not a valid route');
+    res.sendStatus(404);
+  });
+
 app.listen(port, () => console.log(`Listening on port ${port}...`));
 
 export default app;

@@ -22,7 +22,13 @@ routes.get('/images/:name/:width/:height?', (req, res) => {
       res.sendFile(path as string);
       return;
     })
-    .catch((err) => console.error(err));
+    .catch((err) => {
+        if (err.errno == -2) {
+            res.send('File not found');
+            res.sendStatus(401);
+            return;
+        }
+    });
 });
 
 export default routes;
