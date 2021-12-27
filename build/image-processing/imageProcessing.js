@@ -12,20 +12,20 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.processImage = void 0;
+exports.checkImage = exports.processImage = exports.assetsPath = void 0;
 const jimp_1 = __importDefault(require("jimp"));
 const fs_1 = __importDefault(require("fs"));
 const path_1 = __importDefault(require("path"));
-const assetsPath = path_1.default.join(__dirname, '../assets');
+exports.assetsPath = path_1.default.join(__dirname, '../assets');
 function processImage(name, width, height) {
     return __awaiter(this, void 0, void 0, function* () {
-        const thumbPath = `${assetsPath}/thumbs/${name}-${width}-${height}.jpeg`;
+        const thumbPath = `${exports.assetsPath}/thumbs/${name}-${width}-${height}.jpeg`;
         // Look for same image request in cache
         if (checkImage(name, width, height)) {
             return thumbPath;
         }
         // Create thumbnail
-        const image = yield jimp_1.default.read(`${assetsPath}/full/${name}.jpeg`);
+        const image = yield jimp_1.default.read(`${exports.assetsPath}/full/${name}.jpeg`);
         yield image.resize(width, height);
         yield image.writeAsync(thumbPath);
         return thumbPath;
@@ -34,9 +34,10 @@ function processImage(name, width, height) {
 exports.processImage = processImage;
 function checkImage(name, width, height) {
     try {
-        return fs_1.default.existsSync(`${assetsPath}/thumbs/${name}-${width}-${height}.jpeg`);
+        return fs_1.default.existsSync(`${exports.assetsPath}/thumbs/${name}-${width}-${height}.jpeg`);
     }
     catch (err) {
         console.error(err);
     }
 }
+exports.checkImage = checkImage;

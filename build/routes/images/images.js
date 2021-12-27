@@ -25,7 +25,6 @@ routes.get('/images/:name/:width/:height?', (req, res) => {
         .catch((err) => {
         if (err.errno == -2) {
             res.send('File not found');
-            res.sendStatus(401);
             return;
         }
     });

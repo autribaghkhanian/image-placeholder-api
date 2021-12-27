@@ -1,33 +1,29 @@
 "use strict";
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const supertest_1 = __importDefault(require("supertest"));
+const imageProcessing_1 = require("../image-processing/imageProcessing");
 const main_1 = __importDefault(require("../main"));
+const fs_1 = __importDefault(require("fs"));
 const request = (0, supertest_1.default)(main_1.default);
-describe('Incorrect endpoint returns 404', () => {
-    it('gets the api endpoint', (done) => __awaiter(void 0, void 0, void 0, function* () {
-        const response = yield request.get('/api/images/test');
-        expect(response.status).toBe(404);
-        done();
-    }));
-});
-describe('Test', () => {
-    it('gets the api endpoint', (done) => __awaiter(void 0, void 0, void 0, function* () {
-        const response = yield request.get('/api/images/beach/100');
-        console.dir('++++++');
-        console.dir(response);
-        expect(response.body).toBe('');
-        done();
-    }));
+describe('Endpint checks', () => {
+    it('checks wrong endpoint', (done) => {
+        request
+            .get('/test')
+            .expect('Not a valid route', done);
+    });
+    it('checks invalid file', (done) => {
+        request
+            .get('/api/images/test/100')
+            .expect('File not found', done);
+    });
+    it('checks valid file', (done) => {
+        let thumbPath = `${imageProcessing_1.assetsPath}/thumbs`;
+        fs_1.default.mkdirSync(thumbPath, { recursive: true });
+        fs_1.default.writeFile(`${thumbPath}/beach-100-100.jpeg`, '', () => { });
+        request.get('/api/images/beach/100')
+            .expect(200, done);
+    });
 });

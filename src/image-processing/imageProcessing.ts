@@ -2,7 +2,7 @@ import Jimp from 'jimp';
 import fs from 'fs';
 import path from 'path';
 
-const assetsPath = path.join(__dirname, '../assets');
+export const assetsPath = path.join(__dirname, '../assets');
 
 export async function processImage(
   name: string,
@@ -24,7 +24,7 @@ export async function processImage(
   return thumbPath;
 }
 
-function checkImage(name: string, width: number, height: number) {
+export function checkImage(name: string, width: number, height: number) {
   try {
     return fs.existsSync(
       `${assetsPath}/thumbs/${name}-${width}-${height}.jpeg`
