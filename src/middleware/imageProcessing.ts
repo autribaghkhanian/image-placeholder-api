@@ -24,7 +24,11 @@ export async function processImage(
   return thumbPath;
 }
 
-export function checkImage(name: string, width: number, height: number) {
+export function checkImage(
+  name: string,
+  width: number,
+  height: number
+): boolean | undefined {
   try {
     return fs.existsSync(
       `${assetsPath}/thumbs/${name}-${width}-${height}.jpeg`

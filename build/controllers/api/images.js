@@ -5,18 +5,16 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const imageProcessing_1 = require("../../middleware/imageProcessing");
+const validator_1 = require("../../middleware/validator");
 const routes = express_1.default.Router();
-routes.get('/images/:name/:width/:height?', (req, res) => {
+routes.get('/images/:name/:width/:height?', validator_1.checkImageParams, (req, res, next) => {
     let name = req.params['name'];
     let width = req.params['width'];
     let height = req.params['height'];
-    height = typeof height === 'string' ? height : undefined;
     // If height isnt provided, assume user wants a square
-    if (!height) {
-        height = width;
-    }
+    height = height !== null && height !== void 0 ? height : width;
     // Process and serve a new thumbnaiil
-    let result = (0, imageProcessing_1.processImage)(name, parseInt(width), parseInt(height));
+    let result = (0, imageProcessing_1.processImage)(name, Number(width), Number(height));
     result
         .then((path) => {
         res.sendFile(path);

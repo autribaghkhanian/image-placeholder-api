@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { Request, Response } from 'express';
 import routes from './controllers/api/images';
 import morgan from 'morgan';
 
@@ -7,10 +7,9 @@ const port = 3000;
 
 // Middleware
 app.use(morgan('common'));
-
 app.use('/api', routes);
 
-app.get('*', function (req, res) {
+app.get('*', function (req: Request, res: Response): void {
   res.send('Not a valid route');
 });
 
